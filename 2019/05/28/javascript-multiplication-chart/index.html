@@ -88,7 +88,7 @@
 <meta property="og:description" content="這是由六角學院在 Udemy 推出的：JavaScript 題目篇 - 新手 JS 地下城，所出的題目。 裡面有各種有趣的題型可以練習，如果是剛接觸前端的捧油們可以在這裡面找一些題目來練練手。也可以在練習過後爬爬其他人所分享的製作方法，多方比較過後一定會有所成長的！ 首先第一題就是：九九乘法表 (Multiplication Chart) 啦！">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="https://i.imgur.com/5GtdHXF.jpg">
-<meta property="og:updated_time" content="2019-05-28T17:27:32.579Z">
+<meta property="og:updated_time" content="2019-05-29T00:57:58.470Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 新手 JS 地下城 - 1F 九九乘法表 Multiplication Chart">
 <meta name="twitter:description" content="這是由六角學院在 Udemy 推出的：JavaScript 題目篇 - 新手 JS 地下城，所出的題目。 裡面有各種有趣的題型可以練習，如果是剛接觸前端的捧油們可以在這裡面找一些題目來練練手。也可以在練習過後爬爬其他人所分享的製作方法，多方比較過後一定會有所成長的！ 首先第一題就是：九九乘法表 (Multiplication Chart) 啦！">
@@ -397,10 +397,12 @@
 <li>遞增表達式<br>  每執行一圈迴圈，就執行一次。</li>
 </ul>
 <h3 id="陣列-array-與類陣列-array-like"><a href="#陣列-array-與類陣列-array-like" class="headerlink" title="陣列(array)與類陣列(array-like)"></a>陣列(array)與類陣列(array-like)</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementsByClassName(<span class="string">'multiplyItem'</span>)</span><br></pre></td></tr></table></figure>
-<p>雖然對於這一次的題目沒有影響，但竟然當時（該篇貼文發布的四個月前）都做了這個處裡就來分享一下。<code>document.getElementsByClassName(&#39;multiplyItem&#39;)</code> 所取得的資料行別為 <strong>HTMLCollection</strong> 雖然跟陣列 (Array) 很像，但並沒有支援像是 forEach 的功能，所以在處裡上會習慣用 <code>Array.apply(null, document.getElementsByClassName(&#39;multiplyItem&#39;))</code> 的方式將其轉換為陣列在進行操作。</p>
+<p><code>document.getElementsByClassName(&#39;multiplyItem&#39;)</code> 所取得的資料行別為 <strong>HTMLCollection</strong> 雖然跟陣列 (Array) 很像，但並沒有支援像是 forEach 等功能，所以在處裡上會用 <code>Array.apply(null, document.getElementsByClassName(&#39;multiplyItem&#39;))</code> 的方式將其轉換為陣列在進行操作。</p>
 <p>類似的問題也出現在 <code>document.querySelectorAll</code> 裡面，他取出來為 <strong>NodeList</strong>，一樣有部分陣列的功能不支援，雖然 NodeList 在 Chrome 上支援 forEach，但在 ie11 中 NodeList 的原型鍊中就沒有該功能，使用上要留意一下。</p>
-<p>以上就是針對 JavaScript 新手 JS 地下城 - 1F 九九乘法表 Multiplication Chart 的分享。有興趣的可以到 Udemy 買來看看，會有蠻多收穫的。 <em>對！他竟然要收費了</em></p>
-<p>九九乘法表 Multiplication Chart 這個題目作為一系列題目的熱身再適合不過了。所謂迴圈寫得好，程式沒煩惱！掌握迴圈的應用基本上就掌握了一半以上的程式基礎了。所以上面的 JavaScript Code 就讓各位捧油們當作參考囉！有任何指教都歡迎在下方留言告訴我。</p>
+<hr>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>css 部分就沒有特別放上來，可以到 github 上參考，連結我就放在這裡囉：<br><a href="https://mini-ghost.github.io/JSunderground/01/public/">https://mini-ghost.github.io/JSunderground/01/public/</a></p>
+<p>以上就是針對 JavaScript 新手 JS 地下城 - 1F 九九乘法表 Multiplication Chart 的分享。有興趣的可以到 Udemy 找來看看，會有蠻多收穫的。</p>
+<p>九九乘法表 Multiplication Chart 這個題目作為一系列新手題目的熱身再適合不過了。所謂迴圈寫得好，程式沒煩惱！掌握迴圈的應用基本上就掌握了一半以上的程式基礎了。所以上面的 JavaScript Code 就讓各位捧油們當作參考囉！有任何指教都歡迎在下方留言告訴我。</p>
 
       
     </div>
@@ -585,7 +587,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#題目說明"><span class="nav-number">1.</span> <span class="nav-text">題目說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-JavaScript"><span class="nav-number">2.</span> <span class="nav-text">HTML / JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-迴圈"><span class="nav-number">2.1.</span> <span class="nav-text">for 迴圈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#陣列-array-與類陣列-array-like"><span class="nav-number">2.2.</span> <span class="nav-text">陣列(array)與類陣列(array-like)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#題目說明"><span class="nav-number">1.</span> <span class="nav-text">題目說明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML-JavaScript"><span class="nav-number">2.</span> <span class="nav-text">HTML / JavaScript</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#for-迴圈"><span class="nav-number">2.1.</span> <span class="nav-text">for 迴圈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#陣列-array-與類陣列-array-like"><span class="nav-number">2.2.</span> <span class="nav-text">陣列(array)與類陣列(array-like)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結語"><span class="nav-number">3.</span> <span class="nav-text">結語</span></a></li></ol></div>
             
 
           </div>
