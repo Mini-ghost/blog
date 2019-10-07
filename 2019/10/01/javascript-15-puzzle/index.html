@@ -88,7 +88,8 @@
 <meta property="og:description" content="在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 Vue.js 玩一玩，練一練囉！ 該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="https://i.imgur.com/rbF4vD8.jpg">
-<meta property="og:updated_time" content="2019-10-07T14:18:55.277Z">
+<meta property="og:image" content="http://img.youtube.com/vi/ed2wmMBfveo/maxresdefault.jpg">
+<meta property="og:updated_time" content="2019-10-07T14:34:30.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇）">
 <meta name="twitter:description" content="在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 Vue.js 玩一玩，練一練囉！ 該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～">
@@ -351,6 +352,7 @@
 <p>在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 <font color="#41b883"><strong>Vue.js</strong></font> 玩一玩，練一練囉！</p>
 <p>該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～</p>
 <a id="more"></a>
+<h2 id="15-Puzzle-作品連結"><a href="#15-Puzzle-作品連結" class="headerlink" title="15 Puzzle 作品連結"></a>15 Puzzle 作品連結</h2><p>開始前先來玩玩：<strong><a href="https://mini-ghost.github.io/15-Puzzle-Vue/">數字推盤遊戲｜15 Puzzle - Vue.js</a></strong><br>GitHub 連結：<a href="https://github.com/Mini-ghost/15-Puzzle-Vue" target="_blank" rel="noopener">https://github.com/Mini-ghost/15-Puzzle-Vue</a></p>
 <p><strong>使用工具</strong></p>
 <ul>
 <li>Vue.js</li>
@@ -405,6 +407,10 @@
 <p>其實做到這裏基本上的邏輯都一經完成了！剩下來的就是讓 Vue 去讀取 Vuex 裡面的資料，渲染到畫面上就好囉！</p>
 <h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>其實我自己實作時是從畫面開始的，不過最近在工作或其他部分的專案會慢慢練習從資料開始考量，所以這篇也就從 Vuex 的部分開始說囉！演算法部分是看了網路分享後才稍稍能理解並且補上的（原本是跑 200 次迴圈去推亂畫面），所以如果演算法部分看不懂的下面會放我看的影片，裡面有更生動的說明喔！</p>
 <p>接下來除了會盡快補完下篇，也因為這次有做 React 版本，所以預計也會記錄一片從 Vue 學 React 的分享，再請多多指教囉！</p>
+<hr>
+<p>詳盡的影片說明可以看下面這支：</p>
+<p><strong>[ Alex 宅幹嘛 ] 👨‍💻 Vue.js 應用｜HTML+CSS+JS 兩百行拼圖小遊戲</strong>（<a href="https://youtu.be/ed2wmMBfveo" target="_blank" rel="noopener">連結</a>）</p>
+<p><img src="http://img.youtube.com/vi/ed2wmMBfveo/maxresdefault.jpg" alt="[ Alex 宅幹嘛 ] 👨‍💻 Vue.js 應用｜HTML+CSS+JS 兩百行拼圖小遊戲"></p>
 
       
     </div>
@@ -605,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：產生拼圖資料"><span class="nav-number">1.</span> <span class="nav-text">第一步：產生拼圖資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initMultiArrays-數字轉座標陣列"><span class="nav-number">1.1.</span> <span class="nav-text">initMultiArrays 數字轉座標陣列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initPuzzle-初始化拼圖資料"><span class="nav-number">1.2.</span> <span class="nav-text">initPuzzle 初始化拼圖資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：Vuex-初始化資料"><span class="nav-number">2.</span> <span class="nav-text">第二步：Vuex 初始化資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步：比對資料是否有解答"><span class="nav-number">3.</span> <span class="nav-text">第三步：比對資料是否有解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#演算法說明"><span class="nav-number">3.1.</span> <span class="nav-text">演算法說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逆序列累加-countComputed"><span class="nav-number">3.2.</span> <span class="nav-text">逆序列累加 countComputed()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比對資料是否有解答-checkResolvable"><span class="nav-number">3.3.</span> <span class="nav-text">比對資料是否有解答 checkResolvable()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結語"><span class="nav-number">4.</span> <span class="nav-text">結語</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#15-Puzzle-作品連結"><span class="nav-number">1.</span> <span class="nav-text">15 Puzzle 作品連結</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：產生拼圖資料"><span class="nav-number">2.</span> <span class="nav-text">第一步：產生拼圖資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initMultiArrays-數字轉座標陣列"><span class="nav-number">2.1.</span> <span class="nav-text">initMultiArrays 數字轉座標陣列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initPuzzle-初始化拼圖資料"><span class="nav-number">2.2.</span> <span class="nav-text">initPuzzle 初始化拼圖資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：Vuex-初始化資料"><span class="nav-number">3.</span> <span class="nav-text">第二步：Vuex 初始化資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步：比對資料是否有解答"><span class="nav-number">4.</span> <span class="nav-text">第三步：比對資料是否有解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#演算法說明"><span class="nav-number">4.1.</span> <span class="nav-text">演算法說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逆序列累加-countComputed"><span class="nav-number">4.2.</span> <span class="nav-text">逆序列累加 countComputed()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比對資料是否有解答-checkResolvable"><span class="nav-number">4.3.</span> <span class="nav-text">比對資料是否有解答 checkResolvable()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結語"><span class="nav-number">5.</span> <span class="nav-text">結語</span></a></li></ol></div>
             
 
           </div>
