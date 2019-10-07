@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="JavaScript,Vue.js,15-puzzle,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 Vue.js 玩一玩，練一練囉！ 該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～">
+<meta name="keywords" content="JavaScript,Vue.js,15-puzzle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇）">
+<meta property="og:url" content="https://mini-ghost.github.io/blog/2019/10/01/javascript-15-puzzle/index.html">
+<meta property="og:site_name" content="Han-chang Liu&#39;s Notes">
+<meta property="og:description" content="在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 Vue.js 玩一玩，練一練囉！ 該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="https://i.imgur.com/rbF4vD8.jpg">
+<meta property="og:updated_time" content="2019-10-07T14:18:55.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇）">
+<meta name="twitter:description" content="在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 Vue.js 玩一玩，練一練囉！ 該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～">
+<meta name="twitter:image" content="https://i.imgur.com/rbF4vD8.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '作者'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://mini-ghost.github.io/blog/2019/10/01/javascript-15-puzzle/">
+
+
+
+
+
+
+  <!-- Google Analytics -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-130590667-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-130590667-1');
+  </script>
+
+  <!-- End Google Analytics -->
+
+
+  <title>用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇） | Han-chang Liu's Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Han-chang Liu's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">金魚腦前端小咖咖存在雲端的 JavaScript 筆記！</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/blog/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            關於
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            總覽
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://mini-ghost.github.io/blog/blog/2019/10/01/javascript-15-puzzle/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Han-chang Liu (Alex Liu)">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Han-chang Liu's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="發布於" itemprop="dateCreated datePublished" datetime="2019-10-01T21:10:57+08:00">
+                2019-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/blog/2019/10/01/javascript-15-puzzle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/10/01/javascript-15-puzzle/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="https://i.imgur.com/rbF4vD8.jpg" alt="15 Puzzle 數字推盤遊戲" title="15 Puzzle 數字推盤遊戲"></p>
+<p>在 Facebook 社團看到有網友用 Vanilla JS 做了這個題目，剛好假日非常有（ㄅㄧㄢ）空（ㄩㄢˊ），決定把題目拿來用 <font color="#41b883"><strong>Vue.js</strong></font> 玩一玩，練一練囉！</p>
+<p>該篇會分成上下兩篇。上篇會專注在 Vuex 的資料初始化，下篇會將初始化的資料渲染到畫面上，並且做遊戲狀態切換，遊戲完成判斷等工作，CSS 部分就不會太多做分享囉！那就讓我們看下去～</p>
+<a id="more"></a>
+<p><strong>使用工具</strong></p>
+<ul>
+<li>Vue.js</li>
+<li>Vuex</li>
+</ul>
+<h2 id="第一步：產生拼圖資料"><a href="#第一步：產生拼圖資料" class="headerlink" title="第一步：產生拼圖資料"></a>第一步：產生拼圖資料</h2><p>在使用前端框架時，最重要的就是「資料」了，這時就要說我愛資料，資料 NO.1（疑！</p>
+<p>由於到時候會用 <code>v-for</code> 將每一塊拼圖渲染到畫面上，所以需要下面這段：</p>
+<h3 id="initMultiArrays-數字轉座標陣列"><a href="#initMultiArrays-數字轉座標陣列" class="headerlink" title="initMultiArrays 數字轉座標陣列"></a><code>initMultiArrays</code> 數字轉座標陣列</h3><figure class="highlight javascript"><figcaption><span>數字轉座標</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 數字轉座標 */</span></span><br><span class="line"><span class="keyword">const</span> initMultiArrays = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> [ num % <span class="number">4</span>, <span class="built_in">Math</span>.floor(num / <span class="number">4</span>) ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這個 function 最後會回傳一個座標陣列 [ x, y ]，例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">initMultiArrays(<span class="number">1</span>) <span class="comment">// return [1,0]</span></span><br><span class="line">initMultiArrays(<span class="number">6</span>) <span class="comment">// return [1,0]</span></span><br><span class="line">initMultiArrays(<span class="number">11</span>) <span class="comment">// return [2,1]</span></span><br></pre></td></tr></table></figure>
+<h3 id="initPuzzle-初始化拼圖資料"><a href="#initPuzzle-初始化拼圖資料" class="headerlink" title="initPuzzle 初始化拼圖資料"></a><code>initPuzzle</code> 初始化拼圖資料</h3><figure class="highlight javascript"><figcaption><span>初始化拼圖資料</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 初始化拼圖資料 */</span></span><br><span class="line"><span class="keyword">const</span> initPuzzle = <span class="function"><span class="params">num</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> sum = num * num</span><br><span class="line">  <span class="keyword">const</span> puzzle = []</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> number = <span class="number">1</span>; number &lt;= sum; number++) &#123;</span><br><span class="line">    <span class="keyword">const</span> value = initMultiArrays(number - <span class="number">1</span>)</span><br><span class="line">    puzzle.push(&#123; number, value, <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>]&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> puzzle</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後會回傳一個照順序排好好的陣列，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123; <span class="attr">number</span>: <span class="number">0</span>, <span class="attr">value</span>: [<span class="number">0</span>, <span class="number">0</span>], <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>] &#125;,</span><br><span class="line">  &#123; <span class="attr">number</span>: <span class="number">1</span>, <span class="attr">value</span>: [<span class="number">1</span>, <span class="number">0</span>], <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>] &#125;,</span><br><span class="line">  &#123; <span class="attr">number</span>: <span class="number">2</span>, <span class="attr">value</span>: [<span class="number">2</span>, <span class="number">0</span>], <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>] &#125;,</span><br><span class="line">  &#123; <span class="attr">number</span>: <span class="number">3</span>, <span class="attr">value</span>: [<span class="number">3</span>, <span class="number">0</span>], <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>] &#125;,</span><br><span class="line">  &#123; <span class="attr">number</span>: <span class="number">4</span>, <span class="attr">value</span>: [<span class="number">0</span>, <span class="number">1</span>], <span class="attr">position</span>: [<span class="number">0</span>, <span class="number">0</span>] &#125;,</span><br><span class="line">  <span class="comment">// ...（略）</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>提醒：<code>value = initMultiArrays(number - 1)</code> 這裡之所以要 -1 是因為我設定 number 是從 1 開始</p>
+<p>不過這裡有一個設計瑕疵，拼圖傳入一個數字，例如 3 好了，他就會產出長度 3 × 3 的陣列，這也表示 value 陣列應該要依照 3 × 3 的拼圖下去設計，但顯然沒有…？<del>其實本來想設計可以選遊戲等級的，不過隨後來就忘記了，然後就懶了…（笑）</del></p>
+<h2 id="第二步：Vuex-初始化資料"><a href="#第二步：Vuex-初始化資料" class="headerlink" title="第二步：Vuex 初始化資料"></a>第二步：Vuex 初始化資料</h2><p>構想是這樣的，在 Vue Component 裡面 dispatch Action 初始化資料，打亂資料並確定資料有解後，完成初始化，將資料存到 state 立面去供 Vue Component 讀取。</p>
+<p>所以！Action 裡面長這樣 </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">actions: &#123;</span><br><span class="line">  INIT_PUZZLE(&#123; commit &#125;) &#123;</span><br><span class="line">    <span class="comment">/** 初始化 puzzle 資料 */</span></span><br><span class="line">    <span class="keyword">const</span> puzzle = initPuzzle(<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">let</span> emptyIndex = <span class="number">0</span></span><br><span class="line">    <span class="keyword">let</span> emptyArray = [<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">    <span class="keyword">let</span> resolvable = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">while</span> (!resolvable) &#123;</span><br><span class="line">      <span class="comment">/** 打亂初始化的 puzzle 資料 */</span></span><br><span class="line">      puzzle.sort(<span class="function"><span class="params">()</span> =&gt;</span> (<span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span> ? <span class="number">1</span> : <span class="number">-1</span>))</span><br><span class="line">      resolvable = checkResolvable(puzzle)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/** 排組亂數後賦予定位 */</span></span><br><span class="line">    puzzle.forEach(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">      item.position = initMultiArrays(id)</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">/** 設定空格資料 */</span></span><br><span class="line">    emptyIndex = puzzle.findIndex(<span class="function"><span class="params">item</span> =&gt;</span> item.number === <span class="number">16</span>)</span><br><span class="line">    emptyArray = puzzle[emptyIndex].position</span><br><span class="line">    puzzle.splice(emptyIndex, <span class="number">1</span>)</span><br><span class="line">    <span class="comment">/** mutations 資料 */</span></span><br><span class="line">    commit(<span class="string">'SAVE_PUZZLE'</span>, puzzle)</span><br><span class="line">    commit(<span class="string">'SET_EMPTY'</span>, emptyArray)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一點一點說明</p>
+<ol>
+<li><code>puzzle</code>：存放初始化（未被打亂）的拼圖資料。</li>
+<li><code>emptyIndex</code>：存放空格的索引數</li>
+<li><code>emptyArray</code>：存索引數換算出來的位置陣列 [ x, y ]</li>
+<li><code>resolvable</code>：拼圖陣列是否有解的旗標，預設值為 false</li>
+</ol>
+<p>接下來開始跑 while 迴圈，直到確認有解後才會跳出迴圈繼續往下走，簡言之就是：<strong>「打亂」=&gt;「驗證」=&gt;「有解跳出 / 無解再打亂」</strong></p>
+<p>當確認拼圖資料是有解的之後，就要一個一個將每一片拼圖的座標 <em><em>（position 一開始都是給 [0, 0]）</em></em> 給寫進去。最後在將編號 16 的拼圖找出來刪掉即可囉！之後在遊戲的時候會需要知道空格的位置，所以這裡也一併將空格陣列存進 state 裡面去。</p>
+<h2 id="第三步：比對資料是否有解答"><a href="#第三步：比對資料是否有解答" class="headerlink" title="第三步：比對資料是否有解答"></a>第三步：比對資料是否有解答</h2><p>在這裡會提到幾個重點，都算是這個題目的精隨啦！</p>
+<ol>
+<li>拼圖有解的演算法</li>
+<li>陣列操作 <code>Array.prototype.splice()</code> 的一點點點注意事項</li>
+</ol>
+<h3 id="演算法說明"><a href="#演算法說明" class="headerlink" title="演算法說明"></a>演算法說明</h3><ul>
+<li>拼圖列數為奇數時，逆序列數和為偶數。</li>
+<li>拼圖列數為偶數時，逆序列數和奇偶與空行奇偶和守恆。</li>
+</ul>
+<p>就是例如說，拼圖是 3 × 3 那逆序列數的總和只要是偶數就好。但如果是 4 × 4 的話，逆序列數的合的奇偶要與空格所在行數的奇偶相反。</p>
+<p>有了演算法就可以試著來實踐他囉！首先：逆序列累加</p>
+<h3 id="逆序列累加-countComputed"><a href="#逆序列累加-countComputed" class="headerlink" title="逆序列累加 countComputed()"></a>逆序列累加 countComputed()</h3><figure class="highlight javascript"><figcaption><span>逆序列累加</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 逆序列累加 */</span></span><br><span class="line"><span class="keyword">const</span> countComputed = <span class="function"><span class="params">ary</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">/** 逆序列數總和 */</span></span><br><span class="line">  <span class="keyword">let</span> count = <span class="number">0</span></span><br><span class="line">  ary.forEach(<span class="function">(<span class="params">item, index, _ary</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> length = ary.length</span><br><span class="line">    <span class="keyword">let</span> _index = index + <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> (_index &lt; length) &#123;</span><br><span class="line">      <span class="keyword">if</span> (item.number &gt; _ary[_index].number) count++</span><br><span class="line">      _index++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="keyword">return</span> count</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>逆序列累加這邊不會紀錄太多，簡單來舉例：1、2、3 的逆序列數為 0 ，因為 1 後面比 1 小的數量為 0，2 後面也沒有比二小的數字，三就不用講了。如果是 3、1、2 逆序列數為 2，1 跟 2 後面都沒有比自己小的數字，3 後面有兩個比自己小的數字，所以逆序列數總合為 2 。</p>
+<p>有了上面的概念應該後來看看 <code>countComputed()</code> 這個 function，把傳進來的陣列拿來跑 forEach，裡面再去跑 while 迴圈一個一個檢查，如果有比自己小就 count++，最後回傳加總的逆序列總和。</p>
+<p>再看看看最ㄎㄅ的演算法本體：比對資料是否有解答。</p>
+<h3 id="比對資料是否有解答-checkResolvable"><a href="#比對資料是否有解答-checkResolvable" class="headerlink" title="比對資料是否有解答 checkResolvable()"></a>比對資料是否有解答 checkResolvable()</h3><figure class="highlight javascript"><figcaption><span>比對資料是否有解答</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** 比對資料是否有解答 */</span></span><br><span class="line"><span class="keyword">const</span> checkResolvable = <span class="function"><span class="params">ary</span>=&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> space = ary.findIndex(<span class="function"><span class="params">item</span> =&gt;</span> item.number === <span class="number">16</span>)</span><br><span class="line">  <span class="keyword">const</span> spaceX = initMultiArrays(space)[<span class="number">0</span>] + <span class="number">1</span></span><br><span class="line">  <span class="keyword">const</span> newAry = (<span class="function"><span class="params">ary</span> =&gt;</span> &#123;</span><br><span class="line">    ary.splice(space, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> ary</span><br><span class="line">  &#125;)([...ary])</span><br><span class="line">  <span class="keyword">const</span> count = countComputed(newAry)</span><br><span class="line">  <span class="keyword">return</span> count % <span class="number">2</span> + spaceX % <span class="number">2</span> !== <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在前面初始化 puzzle 資料的時候有將「打亂初始化的 puzzle 資料」傳到這個 function 裡面做驗證。在這裡首先要找出空格所在的行（x 軸）：<code>const spaceX = initMultiArrays(space)[0] + 1</code> <em>（+1是因為這裡的數字會從 0 開始）</em> 。</p>
+<p>再來要計算你序列總和，但 <font color="#b00"><strong>注意：這裡要先把空格給移除掉再做計算</strong></font> 。我們一開始有拿到空格的 index：<code>const space = ary.findIndex(item =&gt; item.number === 16)</code>，接下來我選用 <code>Array.prototype.splice()</code> 將要切掉的部分切除 ~</p>
+<p>這裡有幾個點要提醒， <code>Array.prototype.splice()</code> 會改變原本的陣列，<strong>回傳被切掉的陣列</strong>。一開始我蠢蠢的寫  <code>const newAry = [...ary].splice(space, 1)</code> …然後就一直沒發現問題直到開始寫這篇。</p>
+<p>另外一個問題是 <code>Array.prototype.splice()</code> <strong>會改變原本的陣列</strong>，回傳被切掉的陣列。<strong>會改變原本的陣列</strong>這件事情讓我必須在這複製一個不同參考（記憶體位置）的陣列使用，畢竟我是跑迴圈驗證，每跑一圈切一個…真棒不用擔心無窮迴圈了（不是），總之這個很重要。</p>
+<font color="#b00"><br><strong><code>Array.prototype.splice()</code> 會改變原本的陣列，回傳被切掉的陣列。</strong><br><strong><code>Array.prototype.splice()</code> 會改變原本的陣列，回傳被切掉的陣列。</strong><br><strong><code>Array.prototype.splice()</code> 會改變原本的陣列，回傳被切掉的陣列。</strong><br></font>
+
+<p><em><del>TDM 被雷到</del>（自己觀念不紮實怪誰）</em></p>
+<p>最後將「逆序列數組合取除以 2 的餘數」 + 「空格行數除以 2 的餘數」 如果等於 1 就表示其中一個為奇數，另外一個為偶數。而這也表示該拼圖資料有解可以給使用者玩。</p>
+<p>其實做到這裏基本上的邏輯都一經完成了！剩下來的就是讓 Vue 去讀取 Vuex 裡面的資料，渲染到畫面上就好囉！</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>其實我自己實作時是從畫面開始的，不過最近在工作或其他部分的專案會慢慢練習從資料開始考量，所以這篇也就從 Vuex 的部分開始說囉！演算法部分是看了網路分享後才稍稍能理解並且補上的（原本是跑 200 次迴圈去推亂畫面），所以如果演算法部分看不懂的下面會放我看的影片，裡面有更生動的說明喔！</p>
+<p>接下來除了會盡快補完下篇，也因為這次有做 React 版本，所以預計也會記錄一片從 Vue 學 React 的分享，再請多多指教囉！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/blog/tags/Vue-js/" rel="tag"># Vue.js</a>
+          
+            <a href="/blog/tags/15-puzzle/" rel="tag"># 15-puzzle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2019/06/02/javascript-clock/" rel="next" title="新手 JS 地下城 - 2F 時鐘 Clock">
+                <i class="fa fa-chevron-left"></i> 新手 JS 地下城 - 2F 時鐘 Clock
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Han-chang Liu (Alex Liu)</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分類</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Mini-ghost" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/hanchang.liu.7" target="_blank" title="FB Page">
+                      
+                        <i class="fa fa-fw fa-facebook"></i>FB Page</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一步：產生拼圖資料"><span class="nav-number">1.</span> <span class="nav-text">第一步：產生拼圖資料</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#initMultiArrays-數字轉座標陣列"><span class="nav-number">1.1.</span> <span class="nav-text">initMultiArrays 數字轉座標陣列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initPuzzle-初始化拼圖資料"><span class="nav-number">1.2.</span> <span class="nav-text">initPuzzle 初始化拼圖資料</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二步：Vuex-初始化資料"><span class="nav-number">2.</span> <span class="nav-text">第二步：Vuex 初始化資料</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三步：比對資料是否有解答"><span class="nav-number">3.</span> <span class="nav-text">第三步：比對資料是否有解答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#演算法說明"><span class="nav-number">3.1.</span> <span class="nav-text">演算法說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#逆序列累加-countComputed"><span class="nav-number">3.2.</span> <span class="nav-text">逆序列累加 countComputed()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#比對資料是否有解答-checkResolvable"><span class="nav-number">3.3.</span> <span class="nav-text">比對資料是否有解答 checkResolvable()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#結語"><span class="nav-number">4.</span> <span class="nav-text">結語</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Han-chang Liu (Alex Liu)</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://han-chang-lius-notes.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'https://mini-ghost.github.io/blog/2019/10/01/javascript-15-puzzle/';
+          this.page.identifier = '2019/10/01/javascript-15-puzzle/';
+          this.page.title = '用 Vue.js 做 15 Puzzle 拼圖小遊戲（上篇）';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://han-chang-lius-notes.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
